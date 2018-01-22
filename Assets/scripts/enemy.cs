@@ -20,7 +20,8 @@ public class enemy : MonoBehaviour {
     public float pufferSpeed;
     public bool puffUp;
     SpriteRenderer p_sr;
-    
+    public float puffMaxChance;
+    float initMax;
 
      // Use this for initialization
 	void Start () {
@@ -32,6 +33,8 @@ public class enemy : MonoBehaviour {
 
         puffUp = false;
         p_sr = this.GetComponent<SpriteRenderer>();
+        initMax = puffMaxChance;
+
 	}
 	
 	// Update is called once per frame
@@ -75,8 +78,21 @@ public class enemy : MonoBehaviour {
                     m = -3;
                     p_sr.flipX = false;
                 }
-                destPos = new Vector3(this.transform.position.x + m, this.transform.position.y + Random.Range(-1, 1), startPos.z);
+                //will need a way to make sure y point doesn't send the fish above water, math clamp
+                destPos = new Vector3(this.transform.position.x + m, Mathf.Clamp(this.transform.position.y + Random.Range(-1, 1),-100, 0), startPos.z);
+
+                float puffRoll = Random.Range(0, 100);
                
+                if(puffRoll >= puffMaxChance)
+                {
+                    puffUp = true;
+                    puffMaxChance += 10;
+                }else
+                {
+                    puffMaxChance = initMax;
+                } 
+                
+                             
                 pMove = false;
 
             }
@@ -84,6 +100,7 @@ public class enemy : MonoBehaviour {
         }
         else
         {
+
             ani.SetBool("puff", true);
             StartCoroutine(PuffDelay(2.5f));
             destPos = transform.position;
@@ -95,7 +112,7 @@ public class enemy : MonoBehaviour {
     IEnumerator PuffDelay(float t)
     {
         yield return new WaitForSeconds(t);
-        currentTime = 4;
+        currentTime = 6;
         ani.SetBool("puff", false);
         puffUp = false;
         this.GetComponent<CircleCollider2D>().enabled = false;

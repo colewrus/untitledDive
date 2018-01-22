@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - boat
+  - enemy
   layers:
   - Default
   - TransparentFX

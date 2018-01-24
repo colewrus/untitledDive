@@ -6,6 +6,7 @@ TagManager:
   tags:
   - boat
   - enemy
+  - slow
   layers:
   - Default
   - TransparentFX

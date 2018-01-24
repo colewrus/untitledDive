@@ -22,6 +22,7 @@ public class enemy : MonoBehaviour {
     SpriteRenderer p_sr;
     public float puffMaxChance;
     float initMax;
+    public bool playerContact;
 
      // Use this for initialization
 	void Start () {
@@ -34,6 +35,7 @@ public class enemy : MonoBehaviour {
         puffUp = false;
         p_sr = this.GetComponent<SpriteRenderer>();
         initMax = puffMaxChance;
+        playerContact = false;
 
 	}
 	
@@ -54,6 +56,14 @@ public class enemy : MonoBehaviour {
 
         if (!puffUp)
         {
+
+            if (playerContact)
+            {
+                Debug.Log("Contact: " + playerContact);
+                puffUp = true;
+                playerContact = false;
+            }
+
             if (currentTime < timer)
             {
                 currentTime += 1 * Time.deltaTime;
@@ -90,12 +100,13 @@ public class enemy : MonoBehaviour {
                 }else
                 {
                     puffMaxChance = initMax;
-                } 
-                
+                }                 
                              
                 pMove = false;
-
             }
+
+
+                
             transform.position = Vector3.MoveTowards(transform.position, destPos, pufferSpeed * Time.deltaTime);
         }
         else

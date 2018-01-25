@@ -58,7 +58,7 @@ public class player : MonoBehaviour {
                 {
                     bubbleHpCurrent -= airLossRate * Time.deltaTime;
                     Manager_UI.instance.BubbleSprites[bubbleCount-1].GetComponent<RectTransform>().localScale = new Vector3((bubbleHpCurrent / bubbleHpMax), (bubbleHpCurrent / bubbleHpMax), 1);
-                    Debug.Log((bubbleHpCurrent / bubbleHpMax));
+                    
                 }
                 else
                 {

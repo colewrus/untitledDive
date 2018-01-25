@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Manager_UI : MonoBehaviour {
 
@@ -9,6 +10,8 @@ public class Manager_UI : MonoBehaviour {
 
     public GameObject player;
     public Vector3 offset;
+
+    public Text coinAmount;
 
     private void Awake()
     {
@@ -23,22 +26,29 @@ public class Manager_UI : MonoBehaviour {
         {
             BubbleSprites[i].SetActive(false);
         }
-        
+
+        coinAmount.text = "";
 	}
 	
 	// Update is called once per frame
 	void Update () {
         transform.position = player.transform.position + offset;
 
-        if(player.transform.position.y <= -7)
+        if(player.transform.position.y <= player.GetComponent<player>().cameraRubberBandSpot)
         {
             if (offset.y < 1.2f)
                 offset.y += 0.35f * Time.deltaTime;
         }
-        if(player.transform.position.y > -7){
+        if(player.transform.position.y > player.GetComponent<player>().cameraRubberBandSpot)
+        {
                 if (offset.y > 0.2f) { 
                     offset.y -= 0.35f * Time.deltaTime;
                 }   
         }
 	}
+
+    public void AddCoin()
+    {
+        coinAmount.text = "x" + player.GetComponent<player>().coins;
+    }
 }

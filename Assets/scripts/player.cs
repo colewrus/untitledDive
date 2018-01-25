@@ -13,7 +13,7 @@ public class player : MonoBehaviour {
 
     //Air Handlers
     int bubbleCount;
-    int bubbleCountMax;
+    public int bubbleCountMax;
     float bubbleHpMax;
     public float bubbleHpCurrent;
     public float airLossRate;
@@ -22,6 +22,10 @@ public class player : MonoBehaviour {
     public float speed;
     float startSpeed;
     public List<Transform> particleSpots = new List<Transform>();
+    public float cameraRubberBandSpot;
+
+    //Money handler
+    public int coins;
         // 0 is default position, 1 is the diving position
 
 	// Use this for initialization
@@ -33,14 +37,15 @@ public class player : MonoBehaviour {
         startSpeed = speed;
         refreshAir = false;
         bubbleHpMax = bubbleHpCurrent;
-        bubbleCountMax = 1;
-        bubbleCount = 1;
-        drowning = false;
+
+        bubbleCount = bubbleCountMax;
+
+        coins = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        EnterWater();
+        //EnterWater();
         WaterCheck();
         Bubbles();
 	}
@@ -89,6 +94,7 @@ public class player : MonoBehaviour {
         Debug.Log("hurt");
     }
 
+    /*
     void EnterWater()
     {
         if (!inWater)
@@ -102,7 +108,7 @@ public class player : MonoBehaviour {
             }
         }
     }
-
+    */
 
     void Swim()
     {
@@ -121,6 +127,8 @@ public class player : MonoBehaviour {
             bubbleCount = bubbleCountMax;
             bubbleHpCurrent = bubbleHpMax;
             ani.SetBool("swimIdle", true);
+            horiz = 0;
+            vert = 0;
             //resize the bubbles
             for(int i = 0; i < Manager_UI.instance.BubbleSprites.Count; i++)
             {
@@ -129,18 +137,16 @@ public class player : MonoBehaviour {
             rb.velocity = new Vector2(0, 0);
         }
 
-        if (horiz > 0)
+        if (horiz > 0 && vert <0.5f && vert > -0.5f)
         {
             ani.SetBool("swimHoriz", true);
-            sr.flipX = false;
-            sr.flipY = false;
+            sr.flipX = false;            
             gameObject.transform.GetChild(1).transform.position = particleSpots[0].position;
         }
-        else if( horiz < 0)
+        else if( horiz < 0 && vert < 0.5f && vert > -0.5f)
         {
             ani.SetBool("swimHoriz", true);
-            sr.flipX = true;
-            sr.flipY = false;
+            sr.flipX = true;            
             gameObject.transform.GetChild(1).transform.position = particleSpots[0].position;
         }
         else if(vert > 0.5f)
@@ -181,26 +187,26 @@ public class player : MonoBehaviour {
 
     void WaterCheck()
     {
-        if (inWater)
+        //this is for that first jump in
+        if (rb.gravityScale > 0 && transform.position.y < 0)
         {
-
-
-            //this is for that first jump in
-            if(rb.gravityScale > 0 && transform.position.y < 0 && ani.GetBool("goJump"))
+            rb.gravityScale = 0;
+            rb.velocity = new Vector2(0, 0);
+            inWater = true;
+            for (int i = 0; i < bubbleCount; i++)
             {
-                
-                rb.gravityScale = 0;
-                rb.velocity = new Vector2(0, 0);
-                //using the animation start boolean to gate this first jump in
-                ani.SetBool("goJump", false);
-                
+                Manager_UI.instance.BubbleSprites[i].SetActive(true);                
             }
+        }
+
+
+        if (inWater)
+        { 
             if (!ani.GetBool("goJump"))//have you started?
             {
                 if (!refreshAir) //have you surfaced to refill oxygen?
                 {
-                    Swim();
-                    
+                    Swim();                    
                 }
                 else
                 {
@@ -237,12 +243,34 @@ public class player : MonoBehaviour {
         if(collision.tag == "enemy")
         {
             collision.gameObject.GetComponent<enemy>().playerContact = true;
-            Debug.Log(collision.gameObject.GetComponent<enemy>().myEnemy);
+            
         }
 
         if(collision.tag == "slow")
         {
             speed = 0.3f;
+        }
+
+        if(collision.tag == "Coin")
+        {
+            
+            coins++;
+            collision.gameObject.SetActive(false);
+            Manager_UI.instance.AddCoin();
+        }
+
+        if(collision.tag == "tank")
+        {
+            Debug.Log("tank");
+            bubbleCountMax++;
+            bubbleCount = bubbleCountMax;
+            bubbleHpCurrent = bubbleHpMax;
+            for (int i = 0; i < bubbleCount; i++)
+            {
+                Manager_UI.instance.BubbleSprites[i].SetActive(true);
+                Manager_UI.instance.BubbleSprites[i].GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            }
+            collision.gameObject.SetActive(false);
         }
     }
 

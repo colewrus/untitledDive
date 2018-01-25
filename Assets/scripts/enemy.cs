@@ -89,7 +89,7 @@ public class enemy : MonoBehaviour {
                     p_sr.flipX = false;
                 }
                 //will need a way to make sure y point doesn't send the fish above water, math clamp
-                destPos = new Vector3(this.transform.position.x + m, Mathf.Clamp(this.transform.position.y + Random.Range(-1, 1),-100, 0), startPos.z);
+                destPos = new Vector3(this.transform.position.x + m, Mathf.Clamp(this.transform.position.y + Random.Range(-1, 1),-7.5f,-1), startPos.z);
 
                 float puffRoll = Random.Range(0, 100);
                
@@ -117,6 +117,15 @@ public class enemy : MonoBehaviour {
             destPos = transform.position;
             this.GetComponent<BoxCollider2D>().enabled = false;
             this.GetComponent<CircleCollider2D>().enabled = true;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "slow")
+        {
+            
+            pMove = true;
         }
     }
 

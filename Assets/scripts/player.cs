@@ -24,6 +24,10 @@ public class player : MonoBehaviour {
     public List<Transform> particleSpots = new List<Transform>();
     public float cameraRubberBandSpot;
 
+    //Health Vars
+    int health;
+    bool invulnerable;
+
     //Money handler
     public int coins;
         // 0 is default position, 1 is the diving position
@@ -39,8 +43,10 @@ public class player : MonoBehaviour {
         bubbleHpMax = bubbleHpCurrent;
 
         bubbleCount = bubbleCountMax;
-
+        health = Manager_UI.instance.PlayerHealth.Count;
         coins = 0;
+
+        invulnerable = false;
 	}
 	
 	// Update is called once per frame
@@ -121,9 +127,10 @@ public class player : MonoBehaviour {
             ani.SetBool("swimIdle", false);    
         }
 
-        if (transform.position.y >= 0.5f) //for when you surface to refill air
+        if (transform.position.y >= 0.1f) //for when you surface to refill air
         {            
             refreshAir = true;
+            Manager_UI.instance.resurfaceText.SetActive(true);
             bubbleCount = bubbleCountMax;
             bubbleHpCurrent = bubbleHpMax;
             ani.SetBool("swimIdle", true);
@@ -215,6 +222,7 @@ public class player : MonoBehaviour {
                         //add force, go down
                         rb.AddForce(Vector2.down, ForceMode2D.Impulse);
                         refreshAir = false;
+                        Manager_UI.instance.resurfaceText.SetActive(false);
                     }
                 }
                 
@@ -237,18 +245,32 @@ public class player : MonoBehaviour {
 
     }
 
+    IEnumerator InvulDelay(float t)
+    {
+        yield return new WaitForSeconds(t);
+        invulnerable = false;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "enemy")
         {
-            collision.gameObject.GetComponent<enemy>().playerContact = true;
-            
+            if (collision.gameObject.GetComponent<enemy>())
+                collision.gameObject.GetComponent<enemy>().playerContact = true;
+            if (!invulnerable)
+            {
+                Manager_UI.instance.PlayerHealth[health - 1].SetActive(false);
+                health--;
+                invulnerable = true;
+                Debug.Log(invulnerable);
+                StartCoroutine(InvulDelay(1.1f));
+            }
+         
         }
 
         if(collision.tag == "slow")
         {
-            speed = 0.3f;
+            speed = 0.5f;
         }
 
         if(collision.tag == "Coin")

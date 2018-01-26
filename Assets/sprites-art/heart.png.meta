@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: b8006f29403ecc64ca6ae550e7a1dd3f
-timeCreated: 1516979537
+guid: bf5a8fa49527aa0438efebb85502e6a1
+timeCreated: 1516982950
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Bubble_0
-    21300002: Bubble_1
+  fileIDToRecycleName: {}
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -47,7 +45,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 7, y: 7, z: 7, w: 7}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -110,43 +108,8 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Bubble_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Bubble_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    outline:
-    - - {x: -11, y: 11}
-      - {x: -11, y: -9}
-      - {x: -6, y: -11}
-      - {x: 8, y: -11}
-      - {x: 11, y: -8}
-      - {x: 11, y: 9}
-      - {x: 6, y: 11}
+    sprites: []
+    outline: []
     physicsShape: []
   spritePackingTag: 
   userData: 

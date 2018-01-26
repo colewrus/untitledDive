@@ -9,6 +9,7 @@ TagManager:
   - slow
   - Coin
   - tank
+  - water
   layers:
   - Default
   - TransparentFX

@@ -89,8 +89,10 @@ public class enemy : MonoBehaviour {
                     p_sr.flipX = false;
                 }
                 //will need a way to make sure y point doesn't send the fish above water, math clamp
-                destPos = new Vector3(this.transform.position.x + m, Mathf.Clamp(this.transform.position.y + Random.Range(-1, 1),-7.5f,-1), startPos.z);
-
+                destPos = new Vector3(this.transform.position.x + m, Mathf.Clamp(this.transform.position.y + Random.Range(-1, 1),-6.5f,-1), startPos.z);
+                if (destPos.x <= -9) {
+                    destPos.x += 3;
+                }
                 float puffRoll = Random.Range(0, 100);
                
                 if(puffRoll >= puffMaxChance)
@@ -124,7 +126,7 @@ public class enemy : MonoBehaviour {
     {
         if(collision.tag == "slow")
         {
-            
+            pMove = false;
             pMove = true;
         }
     }

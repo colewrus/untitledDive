@@ -7,7 +7,9 @@ public class Manager_UI : MonoBehaviour {
 
     public static Manager_UI instance = null;
     public List<GameObject> BubbleSprites = new List<GameObject>();
+    public List<GameObject> PlayerHealth = new List<GameObject>();
 
+    public GameObject resurfaceText;
     public GameObject player;
     public Vector3 offset;
 
@@ -27,7 +29,13 @@ public class Manager_UI : MonoBehaviour {
             BubbleSprites[i].SetActive(false);
         }
 
+        for(int i=0; i<PlayerHealth.Count; i++)
+        {
+            PlayerHealth[i].SetActive(true);
+        }
+
         coinAmount.text = "";
+        resurfaceText.SetActive(false);
 	}
 	
 	// Update is called once per frame

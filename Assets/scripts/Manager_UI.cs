@@ -9,10 +9,14 @@ public class Manager_UI : MonoBehaviour {
     public List<GameObject> BubbleSprites = new List<GameObject>();
     public List<GameObject> PlayerHealth = new List<GameObject>();
 
+    public Vector3 dampVel;
+
     public GameObject resurfaceText;
     public GameObject player;
     public Vector3 offset;
+    public float speed;
 
+    float startOffsetY;
     public Text coinAmount;
 
     private void Awake()
@@ -28,18 +32,26 @@ public class Manager_UI : MonoBehaviour {
         {
             BubbleSprites[i].SetActive(false);
         }
-
+        startOffsetY = offset.y;
+        /*
         for(int i=0; i<PlayerHealth.Count; i++)
         {
             PlayerHealth[i].SetActive(true);
         }
+        */
 
         coinAmount.text = "";
         resurfaceText.SetActive(false);
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
+
+        Vector3 tempPos = player.transform.position + offset;
+        transform.position = Vector3.SmoothDamp(transform.position, tempPos, ref dampVel, speed);
+             
+        
+        
         transform.position = player.transform.position + offset;
 
         if(player.transform.position.y <= player.GetComponent<player>().cameraRubberBandSpot)
@@ -49,10 +61,11 @@ public class Manager_UI : MonoBehaviour {
         }
         if(player.transform.position.y > player.GetComponent<player>().cameraRubberBandSpot)
         {
-                if (offset.y > 0.2f) { 
+                if (offset.y > startOffsetY) { 
                     offset.y -= 0.35f * Time.deltaTime;
                 }   
         }
+        
 	}
 
     public void AddCoin()

@@ -23,7 +23,8 @@ public class player : MonoBehaviour {
     float startSpeed;
     public List<Transform> particleSpots = new List<Transform>();
     public float cameraRubberBandSpot;
-
+    float horiz;
+    float vert;
     //Health Vars
     int health;
     bool invulnerable;
@@ -118,18 +119,26 @@ public class player : MonoBehaviour {
 
     void Swim()
     {
-        float horiz = Input.GetAxis("Horizontal");
-        float vert = Input.GetAxis("Vertical");
+        horiz = Input.GetAxis("Horizontal");
+        
+        vert = Input.GetAxis("Vertical");
 
         if (horiz != 0 || vert != 0)
         {
-            rb.AddForce(new Vector2(horiz, vert)*speed);
+            if (!refreshAir)
+            {
+                rb.AddForce(new Vector2(horiz, vert) * speed);
+            }else
+            {
+                rb.AddForce(new Vector2(horiz, Mathf.Clamp(vert, -1, 0)) * speed);
+            }
+            
             ani.SetBool("swimIdle", false);    
         }
 
-        if (transform.position.y >= 0.1f) //for when you surface to refill air
-        {            
-            refreshAir = true;
+        /*
+        if (refreshAir) //for when you surface to refill air
+        {      
             Manager_UI.instance.resurfaceText.SetActive(true);
             bubbleCount = bubbleCountMax;
             bubbleHpCurrent = bubbleHpMax;
@@ -143,6 +152,7 @@ public class player : MonoBehaviour {
             }
             rb.velocity = new Vector2(0, 0);
         }
+        */
 
         if (horiz > 0 && vert <0.5f && vert > -0.5f)
         {
@@ -211,14 +221,18 @@ public class player : MonoBehaviour {
         { 
             if (!ani.GetBool("goJump"))//have you started?
             {
+                
+                
                 if (!refreshAir) //have you surfaced to refill oxygen?
                 {
                     Swim();                    
                 }
                 else
                 {
-                    if(Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                    Swim();
+                    if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
                     {
+                       
                         //add force, go down
                         rb.AddForce(Vector2.down, ForceMode2D.Impulse);
                         refreshAir = false;
@@ -267,6 +281,25 @@ public class player : MonoBehaviour {
             }
          
         }
+        if(collision.tag == "water")
+        {
+            if (!refreshAir)
+                rb.velocity = new Vector2(0, 0);
+            Debug.Log("water hit");
+            refreshAir = true;
+            Manager_UI.instance.resurfaceText.SetActive(true);
+            bubbleCount = bubbleCountMax;
+            bubbleHpCurrent = bubbleHpMax;
+            //ani.SetBool("swimIdle", true);
+           // horiz = 0;
+            vert = 0;
+            //resize the bubbles
+            for (int i = 0; i < Manager_UI.instance.BubbleSprites.Count; i++)
+            {
+                Manager_UI.instance.BubbleSprites[i].GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            }
+            
+        }
 
         if(collision.tag == "slow")
         {
@@ -283,7 +316,7 @@ public class player : MonoBehaviour {
 
         if(collision.tag == "tank")
         {
-            Debug.Log("tank");
+            
             bubbleCountMax++;
             bubbleCount = bubbleCountMax;
             bubbleHpCurrent = bubbleHpMax;

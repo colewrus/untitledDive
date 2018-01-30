@@ -101,21 +101,6 @@ public class player : MonoBehaviour {
         Debug.Log("hurt");
     }
 
-    /*
-    void EnterWater()
-    {
-        if (!inWater)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                //play jump animation
-                ani.SetBool("goJump", true);                
-                StartCoroutine(JumpDelay(1.2f));
-            
-            }
-        }
-    }
-    */
 
     void Swim()
     {
@@ -136,23 +121,6 @@ public class player : MonoBehaviour {
             ani.SetBool("swimIdle", false);    
         }
 
-        /*
-        if (refreshAir) //for when you surface to refill air
-        {      
-            Manager_UI.instance.resurfaceText.SetActive(true);
-            bubbleCount = bubbleCountMax;
-            bubbleHpCurrent = bubbleHpMax;
-            ani.SetBool("swimIdle", true);
-            horiz = 0;
-            vert = 0;
-            //resize the bubbles
-            for(int i = 0; i < Manager_UI.instance.BubbleSprites.Count; i++)
-            {
-                Manager_UI.instance.BubbleSprites[i].GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-            }
-            rb.velocity = new Vector2(0, 0);
-        }
-        */
 
         if (horiz > 0 && vert <0.5f && vert > -0.5f)
         {
@@ -245,19 +213,6 @@ public class player : MonoBehaviour {
         }
     }
 
-    IEnumerator JumpDelay(float t)
-    {
-        yield return new WaitForSeconds(t);
-        rb.AddForce(((Vector2.up * 2f) + Vector2.left*1.1f), ForceMode2D.Impulse);
-        
-        inWater = true;
-        for (int i = 0; i < bubbleCount; i++)
-        {
-            Manager_UI.instance.BubbleSprites[i].SetActive(true);
-            Debug.Log("bubb" + bubbleCount);
-        }
-
-    }
 
     IEnumerator InvulDelay(float t)
     {

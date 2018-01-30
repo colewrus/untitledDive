@@ -54,19 +54,6 @@ public class Manager_UI : MonoBehaviour {
         
         transform.position = player.transform.position + offset;
 
-        /*
-        if(player.transform.position.y <= player.GetComponent<player>().cameraRubberBandSpot)
-        {
-            if (offset.y < 1.2f)
-                offset.y += 0.35f * Time.deltaTime;
-        }
-        if(player.transform.position.y > player.GetComponent<player>().cameraRubberBandSpot)
-        {
-                if (offset.y > startOffsetY) { 
-                    offset.y -= 0.35f * Time.deltaTime;
-                }   
-        }
-        */
 	}
 
     public void AddCoin()

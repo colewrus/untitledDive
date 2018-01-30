@@ -11,6 +11,8 @@ public class enemy : MonoBehaviour {
     Rigidbody2D rb;
     Animator ani;
 
+    public BoxCollider2D wanderZone;
+
     //puffer vars
     Vector3 startPos;
     public Vector3 destPos;
@@ -76,23 +78,21 @@ public class enemy : MonoBehaviour {
             //pick a point to the left or right x unitys apart
             if (pMove)
             {
-                float m;
-                GameObject p = GameObject.Find("Player");
-                if (this.transform.position.x < p.transform.position.x)
-                {
-                    m = 3;
-                    p_sr.flipX = true;
+
+
+               
+
+                //will need a way to make sure y point doesn't send the fish above water, math clamp
+                destPos = new Vector3(Random.RandomRange(wanderZone.bounds.min.x, wanderZone.bounds.max.x), Random.RandomRange(wanderZone.bounds.min.y, wanderZone.bounds.max.y));
+                
+                if (destPos.x < this.transform.position.x) {
+                    p_sr.flipX = false;
                 }
                 else
                 {
-                    m = -3;
-                    p_sr.flipX = false;
+                    p_sr.flipX = true;
                 }
-                //will need a way to make sure y point doesn't send the fish above water, math clamp
-                destPos = new Vector3(this.transform.position.x + m, Mathf.Clamp(this.transform.position.y + Random.Range(-1, 1),-6.5f,-1), startPos.z);
-                if (destPos.x <= -9) {
-                    destPos.x += 3;
-                }
+
                 float puffRoll = Random.Range(0, 100);
                
                 if(puffRoll >= puffMaxChance)

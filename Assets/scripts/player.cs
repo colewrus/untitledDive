@@ -22,6 +22,7 @@ public class player : MonoBehaviour {
     public float speed;
     float startSpeed;
     public List<Transform> particleSpots = new List<Transform>();
+    public ParticleSystem particles;
     public float cameraRubberBandSpot;
     float horiz;
     float vert;
@@ -158,29 +159,29 @@ public class player : MonoBehaviour {
         {
             ani.SetBool("swimHoriz", true);
             sr.flipX = false;            
-            gameObject.transform.GetChild(1).transform.position = particleSpots[0].position;
+            particles.transform.position = particleSpots[0].position;
         }
         else if( horiz < 0 && vert < 0.5f && vert > -0.5f)
         {
             ani.SetBool("swimHoriz", true);
             sr.flipX = true;            
-            gameObject.transform.GetChild(1).transform.position = particleSpots[0].position;
+            particles.transform.position = particleSpots[0].position;
         }
         else if(vert > 0.5f)
         {
             ani.SetBool("swimHoriz", false);
             ani.SetBool("swimVert", true);            
-            gameObject.transform.GetChild(1).transform.position = particleSpots[0].position;
+            particles.transform.position = particleSpots[0].position;
         }
         else if(vert < -0.5f)
         {
             ani.SetBool("swimVert", true);
             StartCoroutine(PlayerYdelay());
-            gameObject.transform.GetChild(1).transform.position = particleSpots[1].position;
+            particles.transform.position = particleSpots[1].position;
             //sr.flipY = true;
         }else if(vert == 0 && horiz == 0)//Idle
         {
-            gameObject.transform.GetChild(1).transform.position = particleSpots[0].position;
+            particles.transform.position = particleSpots[0].position;
             ani.SetBool("swimIdle", true);
             ani.SetBool("swimHoriz", false);
             ani.SetBool("swimVert", false);
@@ -225,11 +226,13 @@ public class player : MonoBehaviour {
                 
                 if (!refreshAir) //have you surfaced to refill oxygen?
                 {
-                    Swim();                    
+                    Swim();
+                    particles.enableEmission = true;                    
                 }
                 else
                 {
                     Swim();
+                    particles.enableEmission = false;
                     if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
                     {
                        

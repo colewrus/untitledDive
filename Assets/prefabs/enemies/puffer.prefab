@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myEnemy: 0
+  wanderZone: {fileID: 0}
   destPos: {x: 0, y: 0, z: 0}
   pMove: 0
   timer: 7

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/TitleCard.unity
+- path: Assets/dive.unity
   isLoaded: 1
   isActive: 1

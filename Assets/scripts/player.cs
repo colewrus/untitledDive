@@ -30,6 +30,7 @@ public class player : MonoBehaviour {
     int health;
     bool invulnerable;
 
+    public bool inCave;
     //Money handler
     public int coins;
         // 0 is default position, 1 is the diving position
@@ -76,8 +77,7 @@ public class player : MonoBehaviour {
                 else
                 {
                     bubbleCount -= 1;                
-                    bubbleHpCurrent = bubbleHpMax;
-                    Debug.Log(bubbleCount);
+                    bubbleHpCurrent = bubbleHpMax;                    
                 }
             }
             else
@@ -87,8 +87,7 @@ public class player : MonoBehaviour {
                     bubbleHpCurrent -= airLossRate * Time.deltaTime;
                 }
                 else
-                {
-                    Debug.Log("damage");//take some health damage
+                {                    
                     bubbleHpCurrent = bubbleHpMax;
                 }
                 
@@ -102,21 +101,7 @@ public class player : MonoBehaviour {
         Debug.Log("hurt");
     }
 
-    /*
-    void EnterWater()
-    {
-        if (!inWater)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                //play jump animation
-                ani.SetBool("goJump", true);                
-                StartCoroutine(JumpDelay(1.2f));
-            
-            }
-        }
-    }
-    */
+
 
     void Swim()
     {
@@ -136,24 +121,6 @@ public class player : MonoBehaviour {
             
             ani.SetBool("swimIdle", false);    
         }
-
-        /*
-        if (refreshAir) //for when you surface to refill air
-        {      
-            Manager_UI.instance.resurfaceText.SetActive(true);
-            bubbleCount = bubbleCountMax;
-            bubbleHpCurrent = bubbleHpMax;
-            ani.SetBool("swimIdle", true);
-            horiz = 0;
-            vert = 0;
-            //resize the bubbles
-            for(int i = 0; i < Manager_UI.instance.BubbleSprites.Count; i++)
-            {
-                Manager_UI.instance.BubbleSprites[i].GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-            }
-            rb.velocity = new Vector2(0, 0);
-        }
-        */
 
         if (horiz > 0 && vert <0.5f && vert > -0.5f)
         {
@@ -278,8 +245,7 @@ public class player : MonoBehaviour {
             {
                 Manager_UI.instance.PlayerHealth[health - 1].SetActive(false);
                 health--;
-                invulnerable = true;
-                Debug.Log(invulnerable);
+                invulnerable = true;                
                 StartCoroutine(InvulDelay(1.1f));
             }
          
@@ -337,6 +303,16 @@ public class player : MonoBehaviour {
         if(collision.tag == "slow")
         {
             speed = startSpeed;
+        }
+        if(collision.tag == "caveEntrance")
+        {
+            if(transform.position.y < collision.transform.position.y)
+            {                
+                inCave = true;
+            }else if(transform.position.y > collision.transform.position.y)
+            {
+                inCave = false;
+            }
         }
     }
 

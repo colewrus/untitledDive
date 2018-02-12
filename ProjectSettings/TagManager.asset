@@ -10,6 +10,7 @@ TagManager:
   - Coin
   - tank
   - water
+  - caveEntrance
   layers:
   - Default
   - TransparentFX

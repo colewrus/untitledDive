@@ -24,7 +24,7 @@ public class audioManager : MonoBehaviour {
     public bool caveSwitch;
     GameObject player;
 
-
+	AudioSource newAS;
     private void Awake()
     {
         Instance = this;
@@ -55,7 +55,7 @@ public class audioManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        SaveSelf();
+        //SaveSelf();
         if(myStage == stage.menu)
             Menu();
         if(myStage == stage.dive)
@@ -99,23 +99,30 @@ public class audioManager : MonoBehaviour {
             
             Debug.Log(self.clip.name);
             Crossfade(clips[1], 0.65f);
+
             switch0 = true;
         }
 
+		//Enter the Cave
         if (player.GetComponent<player>().inCave && !caveSwitch) {
             Debug.Log("cave muzak");
             timer = clips[2].length;
-            Crossfade(clips[2], 0.3f);
+			Crossfade(clips[2], 0.3f, true);
+			self.loop = true;
             caveSwitch = true;
         }
 
+		//Exit the cave
         if (!player.GetComponent<player>().inCave && caveSwitch) {
             timer = clips[1].length;
             //self.clip = clips[1];
             Crossfade(clips[1], 0.3f);
+			Debug.Log (self.clip.name);
+			self.loop = true;
             caveSwitch = false;
         }
 
+		/*
         if (!player.GetComponent<player>().inCave && !caveSwitch && switch0) {
 
             if (tick < timer - 0.35f)
@@ -139,6 +146,7 @@ public class audioManager : MonoBehaviour {
                 tick = 0;
             }
         }
+        */
 
         if (caveSwitch && !switch1)
         {
@@ -148,7 +156,7 @@ public class audioManager : MonoBehaviour {
             }else
             {
                 self.loop = true;
-                Crossfade(clips[3], 0.5f);
+				Crossfade(clips[3], 0.5f, true);
                 switch1 = true;
             }            
         }       
@@ -160,18 +168,20 @@ public class audioManager : MonoBehaviour {
         if(self == null)
         {
             self = this.GetComponent<AudioSource>();
-            
+
         }
     }
 
-   public void Crossfade(AudioClip newTrack, float fadeTime = 1.0f)
+	public void Crossfade(AudioClip newTrack, float fadeTime = 1.0f, bool loopy = false)
     {
-        AudioSource newAS = gameObject.AddComponent<AudioSource>();
+        newAS = gameObject.AddComponent<AudioSource>();
         newAS.volume = 0.0f;
 
         newAS.clip = newTrack;
         newAS.Play();
         StartCoroutine(_Crossfade(newAS, fadeTime));
+
+		self.loop = loopy;
     }
 
     IEnumerator _Crossfade(AudioSource newsource, float fadeTime)
@@ -187,7 +197,7 @@ public class audioManager : MonoBehaviour {
             yield return null;
         }
         newsource.volume = 1.0f;
-        Destroy(GetComponent<AudioSource>());
+		Destroy(newAS);
         
     }
 

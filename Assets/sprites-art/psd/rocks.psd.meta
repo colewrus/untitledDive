@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 19500ad9d26b2ad40b789cc2786c51bd
-timeCreated: 1518815525
+timeCreated: 1518984861
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -96,7 +96,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 99
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -373,8 +373,8 @@ TextureImporter:
       name: rocks_15
       rect:
         serializedVersion: 2
-        x: 64
-        y: 320
+        x: 192
+        y: 384
         width: 64
         height: 64
       alignment: 0
@@ -387,7 +387,7 @@ TextureImporter:
       name: rocks_16
       rect:
         serializedVersion: 2
-        x: 128
+        x: 64
         y: 320
         width: 64
         height: 64

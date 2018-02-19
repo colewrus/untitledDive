@@ -90,7 +90,7 @@ Grid:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1898457453338986}
   m_Enabled: 1
-  m_CellSize: {x: 0.64, y: 0.64, z: 0}
+  m_CellSize: {x: 0.64646465, y: 0.64646465, z: 0}
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
@@ -261,15 +261,6 @@ Tilemap:
   - first: {x: -1, y: -6, z: 0}
     second:
       m_TileIndex: 34
-      m_TileSpriteIndex: 34
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 10
-      m_ObjectToInstantiate: {fileID: 0}
-      m_TileFlags: 1
-      m_ColliderType: 1
-  - first: {x: 0, y: -6, z: 0}
-    second:
-      m_TileIndex: 33
       m_TileSpriteIndex: 33
       m_TileMatrixIndex: 0
       m_TileColorIndex: 10
@@ -298,6 +289,15 @@ Tilemap:
     second:
       m_TileIndex: 35
       m_TileSpriteIndex: 35
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 10
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
+  - first: {x: 1, y: -5, z: 0}
+    second:
+      m_TileIndex: 18
+      m_TileSpriteIndex: 34
       m_TileMatrixIndex: 0
       m_TileColorIndex: 10
       m_ObjectToInstantiate: {fileID: 0}
@@ -458,8 +458,8 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: f46f7df631afbc047bda6b7a197ddad0, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 417efb65c2c7caa4aa350249a9cbda0d, type: 2}
   - m_RefCount: 1
@@ -488,10 +488,10 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: fbd92ee86e8f1c640beece3962b464bf, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 3557b98fdb3b00441828d5be13c44c5f, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 61be70094cac3a049a45d77056be0133, type: 2}
-  - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: a60222d38cfef704ea11b2b5a16ce7ae, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: ba989144bef00b840b786f811c021388, type: 2}
   - m_RefCount: 1

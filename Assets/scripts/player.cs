@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class player : MonoBehaviour {
 
@@ -19,6 +20,8 @@ public class player : MonoBehaviour {
     public float airLossRate;
     bool drowning;
 
+	public GameObject pufferBox1; //wander zone
+
     public float speed;
     float startSpeed;
     public List<Transform> particleSpots = new List<Transform>();
@@ -26,6 +29,7 @@ public class player : MonoBehaviour {
     public float cameraRubberBandSpot;
     float horiz;
     float vert;
+
     //Health Vars
     int health;
     bool invulnerable;
@@ -45,6 +49,7 @@ public class player : MonoBehaviour {
         refreshAir = false;
         bubbleHpMax = bubbleHpCurrent;
 
+
         bubbleCount = bubbleCountMax;
         health = Manager_UI.instance.PlayerHealth.Count;
         coins = 0;
@@ -60,7 +65,7 @@ public class player : MonoBehaviour {
 	}
 
 
-    void Bubbles()
+    void Bubbles() //air handler
     {
         if (inWater && !refreshAir)
         {
@@ -98,7 +103,7 @@ public class player : MonoBehaviour {
     IEnumerator NooxyDamage(float t)
     {
         yield return new WaitForSeconds(t);
-        Debug.Log("hurt");
+       
     }
 
 
@@ -117,21 +122,22 @@ public class player : MonoBehaviour {
             }else
             {
                 rb.AddForce(new Vector2(horiz, Mathf.Clamp(vert, -1, 0)) * speed);
-            }
-            
+            }            
             ani.SetBool("swimIdle", false);    
         }
 
         if (horiz > 0 && vert <0.5f && vert > -0.5f)
         {
             ani.SetBool("swimHoriz", true);
+			ani.SetBool ("swimVert", false);
             sr.flipX = false;            
             particles.transform.position = particleSpots[0].position;
         }
         else if( horiz < 0 && vert < 0.5f && vert > -0.5f)
         {
             ani.SetBool("swimHoriz", true);
-            sr.flipX = true;            
+			ani.SetBool ("swimVert", false);
+            sr.flipX = true;    
             particles.transform.position = particleSpots[0].position;
         }
         else if(vert > 0.5f)
@@ -143,6 +149,7 @@ public class player : MonoBehaviour {
         else if(vert < -0.5f)
         {
             ani.SetBool("swimVert", true);
+			ani.SetBool ("swimHoriz", false);
             StartCoroutine(PlayerYdelay());
             particles.transform.position = particleSpots[1].position;
             //sr.flipY = true;
@@ -152,7 +159,8 @@ public class player : MonoBehaviour {
             ani.SetBool("swimIdle", true);
             ani.SetBool("swimHoriz", false);
             ani.SetBool("swimVert", false);
-            sr.flipX = false;
+
+			sr.flipX = false;
             sr.flipY = false;
         }
 
@@ -163,6 +171,14 @@ public class player : MonoBehaviour {
         }
        
     }
+
+	public void FlipY(){
+		if (sr.flipY) {
+			sr.flipY = false;
+		} else {
+			sr.flipY = true;
+		}
+	}
 
     IEnumerator PlayerYdelay()
     {
@@ -224,7 +240,6 @@ public class player : MonoBehaviour {
         for (int i = 0; i < bubbleCount; i++)
         {
             Manager_UI.instance.BubbleSprites[i].SetActive(true);
-            Debug.Log("bubb" + bubbleCount);
         }
 
     }
@@ -254,7 +269,7 @@ public class player : MonoBehaviour {
         {
             if (!refreshAir)
                 rb.velocity = new Vector2(0, 0);
-            Debug.Log("water hit");
+           
             refreshAir = true;
             Manager_UI.instance.resurfaceText.SetActive(true);
             bubbleCount = bubbleCountMax;
@@ -282,6 +297,11 @@ public class player : MonoBehaviour {
             collision.gameObject.SetActive(false);
             Manager_UI.instance.AddCoin();
         }
+
+		if (collision.name == "nextLevel") {
+			
+			SceneManager.LoadScene("TitleCard");
+		}
 
         if(collision.tag == "tank")
         {

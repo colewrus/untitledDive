@@ -11,6 +11,14 @@ public class enemy : MonoBehaviour {
     Rigidbody2D rb;
     Animator ani;
 
+	//wander parameters
+	public BoxCollider2D wanderZone;
+	float minX;
+	float maxX; 
+	float minY;
+	float maxY;
+
+
     //puffer vars
     Vector3 startPos;
     public Vector3 destPos;
@@ -24,8 +32,17 @@ public class enemy : MonoBehaviour {
     float initMax;
     public bool playerContact;
 
+
+
      // Use this for initialization
 	void Start () {
+		//Debug.Log (wanderZone.bounds.center.x - wanderZone.bounds.extents.x + " : " + (wanderZone.bounds.center.x + wanderZone.bounds.extents.x));
+
+		minX = wanderZone.bounds.center.x - wanderZone.bounds.extents.x;
+		maxX = wanderZone.bounds.center.x + wanderZone.bounds.extents.x; 
+		minY = wanderZone.bounds.center.y - wanderZone.bounds.extents.y; 
+		maxY = wanderZone.bounds.center.y + wanderZone.bounds.extents.y;
+		Debug.Log(wanderZone.edgeRadius);
         startPos = this.transform.position;
         pMove = true;
         rb = this.GetComponent<Rigidbody2D>();
@@ -76,21 +93,21 @@ public class enemy : MonoBehaviour {
             //pick a point to the left or right x unitys apart
             if (pMove)
             {
-                float m;
-                GameObject p = GameObject.Find("Player");
-                if (this.transform.position.x < p.transform.position.x)
+                float m = 0.1f;
+              
+				destPos = new Vector3(m+Random.Range(minX, maxX), m+Random.Range(minY,maxY), startPos.x);
+				if (this.transform.position.x < destPos.x)
                 {
-                    m = 3;
                     p_sr.flipX = true;
                 }
                 else
-                {
-                    m = -3;
+                {                    
                     p_sr.flipX = false;
                 }
                 //will need a way to make sure y point doesn't send the fish above water, math clamp
-                destPos = new Vector3(this.transform.position.x + m, Mathf.Clamp(this.transform.position.y + Random.Range(-1, 1),-6.5f,-1), startPos.z);
-                if (destPos.x <= -9) {
+                //destPos = new Vector3(this.transform.position.x + m, Mathf.Clamp(this.transform.position.y + Random.Range(-1, 1),-6.5f,-1), startPos.z);
+
+				if (destPos.x <= -9) {
                     destPos.x += 3;
                 }
                 float puffRoll = Random.Range(0, 100);

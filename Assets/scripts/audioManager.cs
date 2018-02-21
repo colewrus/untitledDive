@@ -89,11 +89,9 @@ public class audioManager : MonoBehaviour {
         }else if(!switch0 && tick >= timer-1)
         {  
                       
-            tick = 0;  
+            tick = 0;             
             
-            
-            Crossfade(clips[6], 1.65f);
-            Debug.Log(self.clip.name);
+            Crossfade(clips[1], 0.65f);            
             switch0 = true;
             switch2 = true;
         }
@@ -109,8 +107,7 @@ public class audioManager : MonoBehaviour {
         }
         */
 
-        if (switch2)
-            self.loop = true;
+	
 
 		//Enter the Cave
         if (player.GetComponent<player>().inCave && !caveSwitch) {
@@ -142,11 +139,12 @@ public class audioManager : MonoBehaviour {
             }else
             {
                 self.loop = true;
-				Crossfade(clips[3], 1.5f, true);
+				Crossfade(clips[3], 0.4f, true);
                 switch1 = true;
             }            
         }
-
+		if (switch2)
+			self.loop = true;
         if (switch1)
             self.loop = true;      
 
@@ -157,9 +155,7 @@ public class audioManager : MonoBehaviour {
         if(self == null)
         {
             self = this.GetComponent<AudioSource>();
-            Debug.Log(self);
-
-        }
+		}
     }
 
 	public void Crossfade(AudioClip newTrack, float fadeTime = 1.0f, bool loopy = false)

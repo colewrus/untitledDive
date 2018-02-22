@@ -80,20 +80,22 @@ public class audioManager : MonoBehaviour {
     }
 
     void Dive()
-    {              
+    {
 
         //this is for the start
-        if (!switch0 && tick < timer-1)
+        if (!switch0)
         {
-            tick += 1 * Time.deltaTime;
-        }else if(!switch0 && tick >= timer-1)
-        {  
-                      
-            tick = 0;             
-            
-            Crossfade(clips[1], 0.65f);            
-            switch0 = true;
-            switch2 = true;
+            if (tick < timer- 0.1f)
+            {
+                tick += 1 * Time.deltaTime;
+            }
+            else
+            {
+                tick = 0;
+                Crossfade(clips[1], 0.1f);
+                switch0 = true;
+                switch2 = true;
+            }
         }
         /*
         //after intro basic loop
@@ -114,8 +116,8 @@ public class audioManager : MonoBehaviour {
             switch2 = false;
             switch1 = false;
             Debug.Log("cave muzak");
-            timer = clips[2].length;
-			Crossfade(clips[2], 0.3f, true);
+            timer = clips[3].length;
+			Crossfade(clips[3], 1f, true);
 			self.loop = true;
             caveSwitch = true;
         }
@@ -124,28 +126,30 @@ public class audioManager : MonoBehaviour {
         if (!player.GetComponent<player>().inCave && caveSwitch && switch0) {
             timer = clips[1].length;
             //self.clip = clips[1];
-            Crossfade(clips[1], 0.3f);
+            Crossfade(clips[1], 0.8f);
 			Debug.Log (self.clip.name);
 			self.loop = true;
             caveSwitch = false;
         }
         
         //cave loop
+        /*
         if (caveSwitch && !switch1)
         {
-            if(tick < timer-0.75f)
+            if(tick < timer-0.15f)
             {
                 tick += Time.deltaTime;
             }else
             {
                 self.loop = true;
-				Crossfade(clips[3], 0.4f, true);
+				Crossfade(clips[3], 0.1f, true);
                 switch1 = true;
             }            
         }
+        */
 		if (switch2)
 			self.loop = true;
-        if (switch1)
+        if (caveSwitch)
             self.loop = true;      
 
     }

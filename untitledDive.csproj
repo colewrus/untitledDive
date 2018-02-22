@@ -306,9 +306,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Grumble AMP\Example Scenes\Scripts\grumbleAMP_example.cs" />
-    <Compile Include="Assets\Grumble AMP\Scripts\grumbleAMP.cs" />
-    <Compile Include="Assets\Grumble AMP\Scripts\grumbleSong.cs" />
     <Compile Include="Assets\scripts\audioManager.cs" />
     <Compile Include="Assets\scripts\enemy.cs" />
     <Compile Include="Assets\scripts\Manager_UI.cs" />

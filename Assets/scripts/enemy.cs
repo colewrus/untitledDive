@@ -58,14 +58,39 @@ public class enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Puffer();
+        if(myEnemy == EnemyType.puffer)
+            Puffer();
+        if (myEnemy == EnemyType.barracuda)
+            Barracuda();
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            puffUp = true;
-        }
 	}
 
+    void Barracuda()
+    {
+        if(currentTime < timer)
+        {
+            currentTime += 1 * Time.deltaTime;
+        }else
+        {
+            pMove = true;
+            currentTime = 0;
+        }
+
+
+        if (pMove)
+        {
+            destPos = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), startPos.x);
+            if(this.transform.position.x < destPos.x)
+            {
+                p_sr.flipX = true;
+            }else
+            {
+                p_sr.flipX = false; 
+            }
+            pMove = false;
+        }
+        transform.position = Vector3.MoveTowards(transform.position, destPos, pufferSpeed * Time.deltaTime);
+    }
 
 
     void Puffer()
@@ -73,14 +98,12 @@ public class enemy : MonoBehaviour {
 
         if (!puffUp)
         {
-
             if (playerContact)
             {
                 Debug.Log("Contact: " + playerContact);
                 puffUp = true;
                 playerContact = false;
             }
-
             if (currentTime < timer)
             {
                 currentTime += 1 * Time.deltaTime;
@@ -93,8 +116,7 @@ public class enemy : MonoBehaviour {
             //pick a point to the left or right x unitys apart
             if (pMove)
             {
-                float m = 0.1f;
-              
+                float m = 0.1f;              
 				destPos = new Vector3(m+Random.Range(minX, maxX), m+Random.Range(minY,maxY), startPos.x);
 				if (this.transform.position.x < destPos.x)
                 {

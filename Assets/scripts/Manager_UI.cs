@@ -40,7 +40,7 @@ public class Manager_UI : MonoBehaviour {
         }
         */
 
-        coinAmount.text = "";
+        coinAmount.text = "" + player.GetComponent<player>().coins;
         resurfaceText.SetActive(false);
 	}
 	

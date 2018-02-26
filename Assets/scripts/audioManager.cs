@@ -92,7 +92,7 @@ public class audioManager : MonoBehaviour {
             else
             {
                 tick = 0;
-                Crossfade(clips[1], 0.1f);
+                Crossfade(clips[1], 0.2f);
                 switch0 = true;
                 switch2 = true;
             }

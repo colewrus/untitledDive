@@ -25,7 +25,8 @@ public class player : MonoBehaviour {
     public float speed;
     float startSpeed;
     public List<Transform> particleSpots = new List<Transform>();
-    public ParticleSystem particles;
+    public ParticleSystem particles; //bubble particles
+    public ParticleSystem coinParticles;
     public float cameraRubberBandSpot;
     float horiz;
     float vert;
@@ -248,18 +249,30 @@ public class player : MonoBehaviour {
     {
         yield return new WaitForSeconds(t);
         invulnerable = false;
+        coinParticles.enableEmission = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "enemy")
         {
+
             if (collision.gameObject.GetComponent<enemy>())
                 collision.gameObject.GetComponent<enemy>().playerContact = true;
             if (!invulnerable)
             {
+                if(coins > 0)
+                {
+                    coinParticles.enableEmission = true;
+                    coinParticles.Play();
+                    coins--;
+                    Manager_UI.instance.coinAmount.text = "x" + coins;
+                }
+
                 Manager_UI.instance.PlayerHealth[health - 1].SetActive(false);
                 health--;
+                ani.SetTrigger("hurt");
+
                 invulnerable = true;                
                 StartCoroutine(InvulDelay(1.1f));
             }

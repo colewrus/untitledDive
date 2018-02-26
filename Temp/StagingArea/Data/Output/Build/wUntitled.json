@@ -1,0 +1,13 @@
+{
+"companyName": "DefaultCompany",
+"productName": "untitled",
+"dataUrl": "wUntitled.data.unityweb",
+"asmCodeUrl": "wUntitled.asm.code.unityweb",
+"asmMemoryUrl": "wUntitled.asm.memory.unityweb",
+"asmFrameworkUrl": "wUntitled.asm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20"
+}

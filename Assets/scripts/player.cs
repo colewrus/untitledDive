@@ -87,16 +87,17 @@ public class player : MonoBehaviour {
                 }
             }
             else
-            {
-                if (bubbleHpCurrent > 0)
+            {         
+                ani.SetTrigger("hurt");
+                if (coins > 0)
                 {
-                    bubbleHpCurrent -= airLossRate * Time.deltaTime;
+                    coinParticles.enableEmission = true;
+                    coinParticles.Play();
+                    coins--;
+                    Manager_UI.instance.coinAmount.text = "x" + coins;
+                    bubbleCount++;
                 }
-                else
-                {                    
-                    bubbleHpCurrent = bubbleHpMax;
-                }
-                
+                bubbleHpCurrent = bubbleHpMax;               
             }
         }
     }
@@ -141,13 +142,13 @@ public class player : MonoBehaviour {
             sr.flipX = true;    
             particles.transform.position = particleSpots[0].position;
         }
-        else if(vert > 0.5f)
+        else if(vert > 0.95f)
         {
             ani.SetBool("swimHoriz", false);
             ani.SetBool("swimVert", true);            
             particles.transform.position = particleSpots[0].position;
         }
-        else if(vert < -0.5f)
+        else if(vert < -0.95f && horiz < 0.75f && horiz > -0.75f)
         {
             ani.SetBool("swimVert", true);
 			ani.SetBool ("swimHoriz", false);

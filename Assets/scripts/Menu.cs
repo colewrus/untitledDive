@@ -9,6 +9,8 @@ public class Menu : MonoBehaviour {
     public GameObject screen;
     bool startFade;
     Color currentColor;
+    float timeToLerp = 1;
+    float timeStarted;
 
     private void Start()
     {
@@ -20,27 +22,32 @@ public class Menu : MonoBehaviour {
     }
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (startFade)
         {
-            Debug.Log(currentColor);
-             screen.GetComponent<Image>().color = Color.Lerp(screen.GetComponent<Image>().color, new Color(0, 0, 0, 1), 1*Time.deltaTime);
+
+            float timesincestarted = Time.time - timeStarted;
+            float perc = timesincestarted / timeToLerp;
+             screen.GetComponent<Image>().color = Color.Lerp(screen.GetComponent<Image>().color, new Color(0, 0, 0, 1), perc);
+            if (perc >= 1)
+                StartCoroutine(FadeOut());
         }
             
     }
 
     public void BeginFade()
     {
+        timeStarted = Time.time;
         screen.SetActive(true);
-        StartCoroutine(FadeOut());
+        //StartCoroutine(FadeOut());
         startFade = true;
     }
 
     IEnumerator FadeOut()    {
         
              
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene("dive");
     }
     
